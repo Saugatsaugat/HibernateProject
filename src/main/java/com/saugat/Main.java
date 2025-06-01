@@ -7,11 +7,6 @@ import org.hibernate.cfg.Configuration;
 
 public class Main {
     public static void main(String ar[]){
-        Employee em1 = new Employee();
-        em1.setFirstname("Suresh");
-        em1.setLastname("Khadka");
-        em1.setAge(23);
-
         SessionFactory sf =  new Configuration()
                 .addAnnotatedClass(com.saugat.Employee.class)
                 .configure()
@@ -19,17 +14,14 @@ public class Main {
 
         Session session = sf.openSession();
 
-        Transaction transaction = session.beginTransaction();
-
-        // save data
-        session.persist(em1);
-
-        transaction.commit();
+        // fetching data
+        Employee e1 = new Employee();
+        e1 = session.get(Employee.class, 1);
 
         // closing resources
         session.close();
         sf.close();
 
-        System.out.println("Data saved successfully");
+        System.out.println(e1);
     }
 }
