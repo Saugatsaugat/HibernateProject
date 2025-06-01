@@ -8,26 +8,27 @@ import org.hibernate.cfg.Configuration;
 public class Main {
     public static void main(String ar[]){
         Employee em1 = new Employee();
-        em1.setFirstname("Saugat");
-        em1.setMiddlename("Thapa");
-        em1.setLastname("Thapa Chhetri");
-        em1.setAge(24);
+        em1.setFirstname("Suresh");
+        em1.setLastname("Khadka");
+        em1.setAge(23);
 
-        Configuration cfg = new Configuration();
-        cfg.addAnnotatedClass(com.saugat.Employee.class);
-        cfg.configure();
+        SessionFactory sf =  new Configuration()
+                .addAnnotatedClass(com.saugat.Employee.class)
+                .configure()
+                .buildSessionFactory(); //cfg.buildSessionFactory();
 
-
-        SessionFactory sf = cfg.buildSessionFactory();
         Session session = sf.openSession();
 
         Transaction transaction = session.beginTransaction();
 
-
         // save data
-        session.save(em1);
+        session.persist(em1);
 
         transaction.commit();
+
+        // closing resources
+        session.close();
+        sf.close();
 
         System.out.println("Data saved successfully");
     }
